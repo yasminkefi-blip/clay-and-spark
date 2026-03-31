@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Clay &amp; Spark — Handmade clay lighter cases. Unique, colorful, one of a kind. Shop our collection." />
+  <title>Clay &amp; Spark. Just Make It.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
+  <style>
+    /* ============================================
+       TOKENS
+    ============================================ */
+    :root {
+      --black:        #111111;
+      --white:        #FFFFFF;
+      --cream:        #F5F3EE;
+      --grey-100:     #F5F5F5;
+      --grey-200:     #E5E5E5;
+      --grey-400:     #A0A0A0;
+      --grey-700:     #555555;
+      --orange:       #FF6B2B;
+      --yellow:       #FFD93D;
+      --purple:       #5B18A6;
+      --purple-light: #A855F7;
+      --transition:   all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================
+       UTILITIES
+    ============================================ */
+    .container { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+    @media (max-width: 768px) { .container { padding: 0 24px; } }
+
+    .label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--grey-700);
+    }
+
+    .label-orange { color: var(--orange); }
+    .label-purple { color: var(--purple); }
+
+    /* ============================================
+       NAVBAR
+    ============================================ */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--grey-200);
+      transition: var(--transition);
+    }
+
+    #navbar.scrolled {
+      background: rgba(17, 17, 17, 0.96);
+      border-bottom-color: transparent;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      padding: 0 48px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.35rem;
+      color: var(--black);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    #navbar.scrolled .nav-logo { color: var(--white); }
+
+    .nav-logo:hover { opacity: 0.7; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--black);
+      transition: var(--transition);
+    }
+
+    #navbar.scrolled .nav-links a { color: var(--white); }
+    .nav-links a:hover { opacity: 0.55; }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 10px 24px;
+      border-radius: 2px;
+      font-size: 0.78rem !important;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #navbar.scrolled .nav-cta { background: var(--orange); }
+
+    .nav-cta:hover {
+      background: var(--orange) !important;
+      opacity: 1 !important;
+      transform: translateY(-1px);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--black);
+      transition: var(--transition);
+    }
+
+    #navbar.scrolled .hamburger span { background: var(--white); }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    /* ---- HERO LAYOUT: #home is the 2-col grid ---- */
+    #home {
+      min-height: 100vh;
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+      position: relative;
+      overflow: hidden;
+      padding-top: 60px;   /* offset sticky navbar */
+    }
+
+    /* Grain overlay */
+    #home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Left content column */
+    .hero-left {
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 48px 80px 48px;
+      position: relative;
+      z-index: 1;
+      max-width: 720px;   /* keep text from stretching on wide screens */
+      justify-self: end;  /* push text toward center on ultra-wide */
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow-line {
+      width: 32px;
+      height: 2px;
+      background: var(--orange);
+    }
+
+    .hero-eyebrow-text {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(4.5rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: -1px;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .hero-title .accent {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--white);
+    }
+
+    .hero-sub {
+      font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+      font-weight: 600;
+      color: var(--grey-400);
+      margin-bottom: 48px;
+      letter-spacing: 0.5px;
+      line-height: 1.7;
+      max-width: 420px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-hero-primary { background: var(--white); color: var(--black); }
+    .btn-hero-primary:hover { background: var(--orange); color: var(--white); transform: translateY(-2px); }
+
+    .btn-hero-ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+    }
+    .btn-hero-ghost:hover { border-color: var(--white); transform: translateY(-2px); }
+
+    /* Right Spline column — fills the grid cell naturally */
+    .hero-right {
+      grid-column: 2;
+      grid-row: 1;
+      position: relative;      /* needed for the spline-viewer fill */
+      overflow: hidden;
+      min-height: calc(100vh - 60px);  /* fallback */
+    }
+
+    spline-viewer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      --spline-viewer-bg: transparent;
+    }
+
+    /* Hero scroll cue */
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--grey-400);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--orange);
+      animation: scroll-slide 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-slide {
+      0%    { left: -100%; }
+      50%   { left: 0%; }
+      100%  { left: 100%; }
+    }
+
+    .scroll-text {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+
+    /* ============================================
+       MARQUEE BAND
+    ============================================ */
+    .marquee-band {
+      background: var(--orange);
+      padding: 14px 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 28px;
+      padding-right: 60px;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+
+    .marquee-dot {
+      width: 5px;
+      height: 5px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ============================================
+       ABOUT
+    ============================================ */
+    #about {
+      background: var(--cream);
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: center;
+    }
+
+    /* About photo placeholder */
+    .about-photo {
+      position: relative;
+    }
+
+    .about-photo-frame {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--grey-200);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-photo-frame-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--grey-400);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .about-photo-frame-inner .ph-icon { font-size: 2.5rem; }
+
+    /* Nike-style accent block */
+    .about-accent-block {
+      position: absolute;
+      bottom: -24px;
+      right: -24px;
+      width: 120px;
+      height: 120px;
+      background: var(--orange);
+      z-index: -1;
+    }
+
+    .about-content { max-width: 520px; }
+
+    .section-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-line {
+      width: 28px;
+      height: 2px;
+      background: currentColor;
+    }
+
+    .about-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1;
+      letter-spacing: 0.5px;
+      color: var(--black);
+      margin-bottom: 28px;
+    }
+
+    .about-body {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--grey-700);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--grey-200);
+    }
+
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+
+    .stat-num {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+
+    /* ============================================
+       PRODUCTS
+    ============================================ */
+    #products {
+      background: var(--white);
+      padding: 120px 0;
+    }
+
+    .products-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 64px;
+    }
+
+    .products-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3rem, 6vw, 6rem);
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .products-header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+      padding-bottom: 8px;
+    }
+
+    .products-count {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    /* Product card — Nike-style: image dominant */
+    .product-card {
+      background: var(--grey-100);
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .product-card:hover { background: var(--black); }
+
+    .product-image-area {
+      width: 100%;
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Each card gets a distinct color */
+    .product-card:nth-child(1) .product-image-area {
+      background: linear-gradient(145deg, #DCDCDC, #B0B0B0);
+    }
+    .product-card:nth-child(2) .product-image-area {
+      background: linear-gradient(145deg, #FF6B2B, #C04010);
+    }
+    .product-card:nth-child(3) .product-image-area {
+      background: linear-gradient(145deg, #2D0A6B, #5B18A6);
+    }
+
+    .product-emoji {
+      font-size: 5rem;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-emoji { transform: scale(1.15) rotate(-5deg); }
+
+    .product-ph-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 12px;
+    }
+    .product-card:nth-child(1) .product-ph-label { color: rgba(0,0,0,0.35); }
+
+    .product-tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--white);
+      color: var(--black);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 10px;
+    }
+
+    .product-card:nth-child(2) .product-tag { background: var(--yellow); }
+    .product-card:nth-child(3) .product-tag { background: var(--purple-light); color: var(--white); }
+
+    .product-info {
+      padding: 20px 24px 24px;
+      transition: var(--transition);
+    }
+
+    .product-card:hover .product-info { background: var(--black); }
+
+    .product-name {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 4px;
+      letter-spacing: 0.2px;
+      transition: var(--transition);
+    }
+
+    .product-card:hover .product-name { color: var(--white); }
+
+    .product-desc {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--grey-400);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.6rem;
+      color: var(--black);
+      transition: var(--transition);
+    }
+
+    .product-card:hover .product-price { color: var(--orange); }
+
+    .product-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .product-btn:hover { background: var(--orange); }
+    .product-card:hover .product-btn { background: var(--orange); }
+
+    /* ============================================
+       FULL-BLEED BANNER (Nike-style interstitial)
+    ============================================ */
+    .full-bleed {
+      background: var(--black);
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .full-bleed::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 107, 43, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .full-bleed-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 80px;
+    }
+
+    .full-bleed-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3.5rem, 8vw, 8rem);
+      line-height: 0.95;
+      color: var(--white);
+      max-width: 700px;
+    }
+
+    .full-bleed-title .stroke {
+      -webkit-text-stroke: 1.5px var(--white);
+      color: transparent;
+    }
+
+    .full-bleed-right {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      flex-shrink: 0;
+      max-width: 320px;
+    }
+
+    .full-bleed-body {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.85;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 15px 32px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-white:hover { background: var(--orange); color: var(--white); }
+
+    .btn-arrow::after {
+      content: '→';
+      font-size: 1rem;
+      transition: transform 0.25s ease;
+    }
+    .btn-arrow:hover::after { transform: translateX(4px); }
+
+    /* ============================================
+       CONTACT
+    ============================================ */
+    #contact {
+      background: var(--cream);
+      padding: 120px 0;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 96px;
+      align-items: start;
+    }
+
+    .contact-left { max-width: 500px; }
+
+    .contact-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+
+    .contact-sub {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--grey-700);
+      margin-bottom: 48px;
+      line-height: 1.75;
+    }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 0; }
+
+    .form-row { position: relative; margin-bottom: 2px; }
+
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      background: var(--white);
+      border: none;
+      outline: none;
+      padding: 22px 20px 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--black);
+      transition: var(--transition);
+    }
+
+    .form-row input:focus,
+    .form-row textarea:focus { background: var(--grey-100); }
+
+    .form-row label {
+      position: absolute;
+      top: 12px;
+      left: 20px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      pointer-events: none;
+      transition: var(--transition);
+    }
+
+    .form-row textarea { min-height: 120px; resize: vertical; padding-top: 28px; }
+
+    .form-submit {
+      margin-top: 2px;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 20px 40px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-submit:hover { background: var(--orange); }
+
+    .form-success {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: var(--black);
+      color: var(--white);
+      padding: 16px 20px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-top: 2px;
+    }
+
+    /* Contact right */
+    .contact-right { display: flex; flex-direction: column; gap: 2px; }
+
+    .contact-card {
+      background: var(--white);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-card-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+
+    .contact-card-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.8rem;
+      color: var(--black);
+      line-height: 1.1;
+    }
+
+    .contact-card-body {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--grey-700);
+      line-height: 1.7;
+    }
+
+    /* Instagram card */
+    .ig-card {
+      background: var(--black);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ig-card .contact-card-label,
+    .ig-card .contact-card-title,
+    .ig-card .contact-card-body { color: var(--white); }
+    .ig-card .contact-card-label { color: rgba(255,255,255,0.4); }
+    .ig-card .contact-card-body { color: rgba(255,255,255,0.6); }
+
+    .btn-ig {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 24px;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      align-self: flex-start;
+    }
+
+    .btn-ig:hover { background: var(--white); color: var(--black); }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    #footer {
+      background: var(--black);
+      padding: 64px 0 32px;
+    }
+
+    .footer-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.6rem;
+      color: var(--white);
+    }
+
+    .footer-tagline {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.35);
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .footer-nav-col { display: flex; flex-direction: column; gap: 12px; }
+
+    .footer-nav-heading {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 4px;
+    }
+
+    .footer-nav-col a {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      transition: var(--transition);
+    }
+
+    .footer-nav-col a:hover { color: var(--white); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.5px;
+    }
+
+    .footer-ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: var(--transition);
+    }
+
+    .footer-ig-link svg { width: 18px; height: 18px; fill: currentColor; }
+    .footer-ig-link:hover { color: var(--orange); }
+
+    /* ============================================
+       ANIMATIONS
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.d1 { transition-delay: 0.1s; }
+    .reveal.d2 { transition-delay: 0.2s; }
+    .reveal.d3 { transition-delay: 0.3s; }
+    .reveal.d4 { transition-delay: 0.4s; }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1024px) {
+      /* Stack hero vertically on tablet */
+      #home {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      .hero-left {
+        grid-column: 1;
+        grid-row: 1;
+        padding: 80px 32px 40px;
+        max-width: 100%;
+        justify-self: start;
+      }
+      .hero-right {
+        grid-column: 1;
+        grid-row: 2;
+        min-height: 60vw;
+        position: relative;
+      }
+      .about-inner, .contact-inner { grid-template-columns: 1fr; gap: 64px; }
+      .about-accent-block { display: none; }
+      .full-bleed-inner { flex-direction: column; gap: 48px; }
+      .full-bleed-right { max-width: 100%; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .container { padding: 0 32px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 60px; left: 0; right: 0; flex-direction: column; background: var(--black); padding: 20px 0; gap: 0; border-top: none; }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 14px 24px; color: var(--white) !important; font-size: 0.9rem; }
+      .nav-links .nav-cta { margin: 8px 20px 8px; display: block; text-align: center; border-radius: 2px; }
+      .hamburger { display: flex; }
+      .nav-inner { padding: 0 24px; }
+      .hero-left { padding: 60px 0 32px; }
+      .hero-scroll { display: none; }
+      .products-grid { grid-template-columns: 1fr; }
+      .about-stats { gap: 24px; }
+      .footer-nav { gap: 32px; }
+      #about, #products, #contact, .full-bleed { padding: 80px 0; }
+      .products-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 4rem; }
+      .hero-actions { flex-direction: column; }
+      .btn-hero { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAVBAR
+  ============================================ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo" id="logo-link">Clay &amp; Spark</a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="nav-cta" id="nav-cta-btn">
+            📸 Order on Instagram
+          </a>
+        </li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       HERO
+  ============================================ -->
+  <section id="home">
+
+    <!-- LEFT: text content -->
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-line"></span>
+        <span class="hero-eyebrow-text">Handcrafted · Limited Runs · 100% Unique</span>
+      </div>
+
+      <h1 class="hero-title">
+        Clay<br>
+        <span class="accent">&amp;</span><br>
+        Spark
+      </h1>
+
+      <p class="hero-sub">
+        Handmade clay lighter cases sculpted one by one.<br>
+        No two are alike. Each one is a small work of art.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#products" class="btn-hero btn-hero-primary btn-arrow" id="hero-shop-btn">
+          Shop Now
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-hero btn-hero-ghost" id="hero-ig-btn">
+          📸 Find Us
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Spline 3D scene fills grid cell natively -->
+    <div class="hero-right">
+      <spline-viewer
+        id="hero-spline"
+        url="https://prod.spline.design/O46urfxX2i00BWK7/scene.splinecode"
+        loading="lazy"
+      ></spline-viewer>
+    </div>
+
+    <!-- Scroll indicator (positioned absolute relative to #home) -->
+    <div class="hero-scroll">
+      <span class="scroll-line"></span>
+      <span class="scroll-text">Scroll</span>
+    </div>
+
+  </section>
+
+  <!-- ============================================
+       MARQUEE BAND
+  ============================================ -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <!-- duplicated for seamless loop -->
+      <template id="marquee-tpl">
+        <span class="marquee-item">Handmade<span class="marquee-dot"></span></span>
+        <span class="marquee-item">Unique<span class="marquee-dot"></span></span>
+        <span class="marquee-item">Clay &amp; Spark<span class="marquee-dot"></span></span>
+        <span class="marquee-item">One of a Kind<span class="marquee-dot"></span></span>
+        <span class="marquee-item">Made with Love<span class="marquee-dot"></span></span>
+        <span class="marquee-item">Lighter Cases<span class="marquee-dot"></span></span>
+      </template>
+    </div>
+  </div>
+
+  <!-- ============================================
+       ABOUT
+  ============================================ -->
+  <section id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-photo reveal">
+          <div class="about-photo-frame">
+            <div class="about-photo-frame-inner">
+              <span class="ph-icon">📷</span>
+              <span>Your Photo Here</span>
+            </div>
+          </div>
+          <div class="about-accent-block"></div>
+        </div>
+
+        <div class="about-content">
+          <div class="section-eyebrow label label-orange reveal">
+            <span class="eyebrow-line"></span>
+            The Story
+          </div>
+
+          <h2 class="about-title reveal d1">The Story<br>Behind<br>the Clay</h2>
+
+          <p class="about-body reveal d2">
+            Hi! I'm a passionate artist who discovered the magic of polymer clay and never looked back. What started as a small hobby in my kitchen has grown into a colorful little business built on creativity, patience, and a whole lot of love.
+          </p>
+          <p class="about-body reveal d3">
+            Every single lighter case is sculpted, designed, and finished entirely by hand. No two pieces are ever exactly alike — each one carries a little piece of my personality and creativity, made just for you.
+          </p>
+
+          <div class="about-stats reveal d4">
+            <div class="stat-item">
+              <span class="stat-num">100%</span>
+              <span class="stat-label">Handmade</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">1/1</span>
+              <span class="stat-label">Unique Designs</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">∞</span>
+              <span class="stat-label">Made with Love</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PRODUCTS
+  ============================================ -->
+  <section id="products">
+    <div class="container">
+      <div class="products-header">
+        <div>
+          <div class="label label-purple reveal" style="margin-bottom:16px;">Our Collection</div>
+          <h2 class="products-title reveal d1">Shop<br>the Cases</h2>
+        </div>
+        <div class="products-header-right reveal d2">
+          <span class="products-count" id="product-count">3 Products</span>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-white btn-arrow" id="products-ig-link">Order on Instagram</a>
+        </div>
+      </div>
+
+      <div class="products-grid" id="products-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FULL-BLEED BANNER
+  ============================================ -->
+  <div class="full-bleed">
+    <div class="container">
+      <div class="full-bleed-inner">
+        <h2 class="full-bleed-title reveal">
+          Each<br>
+          Case<br>
+          <span class="stroke">Tells a</span><br>
+          Story
+        </h2>
+        <div class="full-bleed-right">
+          <p class="full-bleed-body reveal d1">
+            Every design is sculpted by hand, inspired by nature, color, and the unexpected. No molds. No machines. Just hands, clay, and creative instinct.
+          </p>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-white btn-arrow reveal d2" id="banner-ig-btn">
+            Order on Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       CONTACT
+  ============================================ -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="contact-left">
+          <div class="label label-orange reveal" style="margin-bottom:16px;">Say Hello</div>
+          <h2 class="contact-title reveal d1">Get in Touch</h2>
+          <p class="contact-sub reveal d2">Have a question, a custom request, or just want to chat about clay? Drop me a message.</p>
+
+          <form class="contact-form reveal d3" id="contact-form" novalidate>
+            <div class="form-row">
+              <label for="contact-name">Name</label>
+              <input type="text" id="contact-name" name="name" placeholder=" " required />
+            </div>
+            <div class="form-row">
+              <label for="contact-email">Email</label>
+              <input type="email" id="contact-email" name="email" placeholder=" " required />
+            </div>
+            <div class="form-row">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" placeholder=" " required></textarea>
+            </div>
+            <div class="form-success" id="form-success">
+              ✓ &nbsp; Message received — I'll reply soon!
+            </div>
+            <button type="submit" class="form-submit btn-arrow" id="form-submit-btn">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        <div class="contact-right reveal d2">
+          <!-- Instagram card -->
+          <div class="ig-card">
+            <span class="contact-card-label">Instagram</span>
+            <div class="contact-card-title">Find Us on<br>Instagram</div>
+            <p class="contact-card-body">See our latest drops, behind-the-scenes clay magic, and DM us to place your order.</p>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-ig btn-arrow" id="contact-ig-btn">
+              Order on Instagram
+            </a>
+          </div>
+
+          <!-- Info cards -->
+          <div class="contact-card">
+            <span class="contact-card-label">Response Time</span>
+            <div class="contact-card-title">Within 24h</div>
+            <p class="contact-card-body">I read every message personally and always reply as quickly as I can.</p>
+          </div>
+
+          <div class="contact-card">
+            <span class="contact-card-label">Custom Orders</span>
+            <div class="contact-card-title">Made for You</div>
+            <p class="contact-card-body">Want a specific design, color, or pattern? Let's talk — I love custom requests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+  ============================================ -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">Clay &amp; Spark</div>
+          <p class="footer-tagline">Made with love and clay ✦</p>
+        </div>
+
+        <nav class="footer-nav" aria-label="Footer links">
+          <div class="footer-nav-col">
+            <span class="footer-nav-heading">Navigate</span>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#products">Products</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div class="footer-nav-col">
+            <span class="footer-nav-heading">Connect</span>
+            <a href="https://instagram.com" target="_blank" rel="noopener" id="footer-ig-link">Instagram</a>
+          </div>
+        </nav>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="copyright-year"></span> Clay &amp; Spark. All rights reserved.</p>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="footer-ig-link" id="footer-ig-icon-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+          @clay.and.spark
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================ -->
+  <script>
+    /* ============================================
+       PRODUCT DATA — Edit this array to add/remove products!
+    ============================================ */
+    const products = [
+      {
+        id: 1,
+        name: "Marble Swirl Case",
+        description: "Elegant swirl pattern in white and grey",
+        price: "$15",
+        tag: "Fan Fave",
+        emoji: "🪨",
+        instagramUrl: "https://instagram.com"
+      },
+      {
+        id: 2,
+        name: "Sunset Blaze Case",
+        description: "Warm orange and red flame design",
+        price: "$18",
+        tag: "Hot Pick",
+        emoji: "🔥",
+        instagramUrl: "https://instagram.com"
+      },
+      {
+        id: 3,
+        name: "Galaxy Dream Case",
+        description: "Deep purple with gold speckles",
+        price: "$20",
+        tag: "Bestseller",
+        emoji: "✨",
+        instagramUrl: "https://instagram.com"
+      }
+    ];
+
+    /* ============================================
+       RENDER PRODUCTS
+    ============================================ */
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      const countEl = document.getElementById('product-count');
+      countEl.textContent = `${products.length} Product${products.length !== 1 ? 's' : ''}`;
+      grid.innerHTML = '';
+
+      products.forEach((p, i) => {
+        const delays = ['', 'd1', 'd2'];
+        const card = document.createElement('div');
+        card.className = `product-card reveal ${delays[i] || ''}`;
+        card.innerHTML = `
+          <div class="product-image-area">
+            <span class="product-emoji">${p.emoji}</span>
+            <span class="product-ph-label">Image Coming Soon</span>
+            <span class="product-tag">${p.tag}</span>
+          </div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-desc">${p.description}</div>
+            <div class="product-footer">
+              <span class="product-price">${p.price}</span>
+              <a href="${p.instagramUrl}" target="_blank" rel="noopener"
+                 class="product-btn" id="product-btn-${p.id}">Order</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      observeReveal();
+    }
+
+    /* ============================================
+       NAVBAR — scroll + hamburger
+    ============================================ */
+    const navbar   = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    /* ============================================
+       MARQUEE — inject duplicate for seamless loop
+    ============================================ */
+    (function() {
+      const track = document.querySelector('.marquee-track');
+      const tpl   = document.getElementById('marquee-tpl');
+      if (!tpl || !track) return;
+      // Insert twice for seamless loop
+      track.innerHTML = tpl.innerHTML + tpl.innerHTML;
+    })();
+
+    /* Hero layout is now pure CSS grid — no JS positioning needed */
+
+    /* ============================================
+       INTERSECTION OBSERVER — reveal animations
+    ============================================ */
+    function observeReveal() {
+      const els = document.querySelectorAll('.reveal:not(.visible)');
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      els.forEach(el => obs.observe(el));
+    }
+
+    /* ============================================
+       CONTACT FORM
+    ============================================ */
+    const form      = document.getElementById('contact-form');
+    const successEl = document.getElementById('form-success');
+    const submitBtn = document.getElementById('form-submit-btn');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name    = document.getElementById('contact-name').value.trim();
+      const email   = document.getElementById('contact-email').value.trim();
+      const message = document.getElementById('contact-message').value.trim();
+
+      if (!name || !email || !message) {
+        [document.getElementById('contact-name'), document.getElementById('contact-email'), document.getElementById('contact-message')].forEach(f => {
+          if (!f.value.trim()) f.style.outline = '2px solid ' + 'var(--orange)';
+          setTimeout(() => { f.style.outline = ''; }, 2500);
+        });
+        return;
+      }
+
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
+      setTimeout(() => {
+        form.reset();
+        successEl.style.display = 'flex';
+        submitBtn.textContent = 'Send Message →';
+        submitBtn.disabled = false;
+        setTimeout(() => { successEl.style.display = 'none'; }, 6000);
+      }, 1200);
+    });
+
+    /* ============================================
+       FOOTER — copyright year
+    ============================================ */
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+    /* ============================================
+       INIT
+    ============================================ */
+    renderProducts();
+    observeReveal();
+  </script>
+</body>
+</html>
