@@ -169,42 +169,56 @@
     .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ============================================
-       HERO
+       HERO — Spline as full-bleed background
     ============================================ */
-    /* ---- HERO LAYOUT: #home is the 2-col grid ---- */
     #home {
       min-height: 100vh;
       background: var(--black);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr;
       position: relative;
       overflow: hidden;
-      padding-top: 60px;   /* offset sticky navbar */
+      padding-top: 60px;
+      display: flex;
+      align-items: center;
     }
 
-    /* Grain overlay */
-    #home::before {
-      content: '';
+    /* Spline fills the entire section */
+    .hero-spline-bg {
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
       z-index: 0;
     }
 
-    /* Left content column */
-    .hero-left {
-      grid-column: 1;
-      grid-row: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 48px 80px 48px;
-      position: relative;
+    spline-viewer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      --spline-viewer-bg: transparent;
+    }
+
+    /* Gradient overlay — dark on the left so text is readable,
+       fades to transparent on the right so the 3D shows fully */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
       z-index: 1;
-      max-width: 720px;   /* keep text from stretching on wide screens */
-      justify-self: end;  /* push text toward center on ultra-wide */
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.55) 45%,
+        rgba(0, 0, 0, 0.15) 70%,
+        rgba(0, 0, 0, 0.05) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Text content floats above everything */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 80px 48px;
+      max-width: 680px;
     }
 
     .hero-eyebrow {
@@ -286,14 +300,6 @@
     }
     .btn-hero-ghost:hover { border-color: var(--white); transform: translateY(-2px); }
 
-    /* Right Spline column — fills the grid cell naturally */
-    .hero-right {
-      grid-column: 2;
-      grid-row: 1;
-      position: relative;      /* needed for the spline-viewer fill */
-      overflow: hidden;
-      min-height: calc(100vh - 60px);  /* fallback */
-    }
 
     spline-viewer {
       position: absolute;
@@ -1037,30 +1043,21 @@
        RESPONSIVE
     ============================================ */
     @media (max-width: 1024px) {
-      /* Stack hero vertically on tablet */
-      #home {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-      }
-      .hero-left {
-        grid-column: 1;
-        grid-row: 1;
-        padding: 80px 32px 40px;
-        max-width: 100%;
-        justify-self: start;
-      }
-      .hero-right {
-        grid-column: 1;
-        grid-row: 2;
-        min-height: 60vw;
-        position: relative;
-      }
+      .hero-content { padding: 80px 32px 40px; max-width: 100%; }
       .about-inner, .contact-inner { grid-template-columns: 1fr; gap: 64px; }
       .about-accent-block { display: none; }
       .full-bleed-inner { flex-direction: column; gap: 48px; }
       .full-bleed-right { max-width: 100%; }
       .products-grid { grid-template-columns: repeat(2, 1fr); }
       .container { padding: 0 32px; }
+      /* On mobile, darken overlay more since Spline is behind all content */
+      .hero-overlay {
+        background: linear-gradient(
+          to bottom,
+          rgba(0,0,0,0.75) 0%,
+          rgba(0,0,0,0.6) 100%
+        );
+      }
     }
 
     @media (max-width: 768px) {
@@ -1119,11 +1116,23 @@
   ============================================ -->
   <section id="home">
 
-    <!-- LEFT: text content -->
-    <div class="hero-left">
+    <!-- Spline 3D — full background -->
+    <div class="hero-spline-bg">
+      <spline-viewer
+        id="hero-spline"
+        url="https://prod.spline.design/O46urfxX2i00BWK7/scene.splinecode"
+        loading="lazy"
+      ></spline-viewer>
+    </div>
+
+    <!-- Gradient overlay so text stays readable -->
+    <div class="hero-overlay"></div>
+
+    <!-- Text content on top -->
+    <div class="hero-content">
       <div class="hero-eyebrow">
         <span class="hero-eyebrow-line"></span>
-        <span class="hero-eyebrow-text">Handcrafted · Limited Runs · 100% Unique</span>
+        <span class="hero-eyebrow-text">Handcrafted &middot; Limited Runs &middot; 100% Unique</span>
       </div>
 
       <h1 class="hero-title">
@@ -1142,21 +1151,12 @@
           Shop Now
         </a>
         <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-hero btn-hero-ghost" id="hero-ig-btn">
-          📸 Find Us
+          &#128248; Find Us
         </a>
       </div>
     </div>
 
-    <!-- RIGHT: Spline 3D scene fills grid cell natively -->
-    <div class="hero-right">
-      <spline-viewer
-        id="hero-spline"
-        url="https://prod.spline.design/O46urfxX2i00BWK7/scene.splinecode"
-        loading="lazy"
-      ></spline-viewer>
-    </div>
-
-    <!-- Scroll indicator (positioned absolute relative to #home) -->
+    <!-- Scroll indicator -->
     <div class="hero-scroll">
       <span class="scroll-line"></span>
       <span class="scroll-text">Scroll</span>
